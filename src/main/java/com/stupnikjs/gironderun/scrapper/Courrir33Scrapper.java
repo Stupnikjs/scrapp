@@ -19,7 +19,7 @@ public class Courrir33Scrapper {
         String type = "";
         String nom = "";
         String lieu = "";
-        String distance = "";
+        List<String> distance = new ArrayList<>();
 
         try {
             Document doc = Jsoup.connect("http://www.courir33.net/calgeneral23.php").get();
@@ -39,12 +39,15 @@ public class Courrir33Scrapper {
                         case 2:
                             nom = elts.get(i).text();
                         case 3:
-                            distance = elts.get(i).text();
+                            distance.add((elts.get(i).text()));
                     }
 
                 }
-                if (!(nom.isEmpty() && lieu.isEmpty() && distance.isBlank()))
-                    courses.add(new Course(distance, lieu, nom, date, 33));
+                if (!(nom.isEmpty() && lieu.isEmpty())) {
+                    Course newCourse = new Course(lieu, nom, date, 33);
+                    newCourse.setDistance(distance);
+                    courses.add(newCourse);
+                }
             }
 
 

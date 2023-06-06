@@ -1,0 +1,24 @@
+spring:
+  jpa:
+    show_sql: true
+    hibernate:
+      ddl-auto: create
+  datasource:
+
+    url: jdbc:postgresql://lucky.db.elephantsql.com:5432/roblqurx
+    driver-class-name: org.postgresql.Driver
+    username: roblqurx
+    password: exHzDY29zXoM-dTbfsabErskZSaDRXZb
+    hikari:
+      autoCommit: true
+      idleTimeout: 1000
+      minimumIdle: 5
+      maximumPoolSize: 2
+      maxLifetime: 30000
+      poolName: HikariQuizz
+
+
+
+
+server:
+  port: 8080

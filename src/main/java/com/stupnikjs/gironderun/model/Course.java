@@ -3,16 +3,26 @@ package com.stupnikjs.gironderun.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 
-
+@Entity
 public class Course {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
+
     @JsonProperty("distance")
-    String distance;
+    List<String> distance;
 
     @JsonProperty("date")
     private Date date;
@@ -30,6 +40,26 @@ public class Course {
 
     @JsonProperty("nom")
     String nom;
+
+    public List<String> getDistance() {
+        return distance;
+    }
+
+    public void setDistance(List<String> distance) {
+        this.distance = distance;
+    }
+
+    @JsonProperty("link")
+    String link;
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
     public Course(){
 
     }
@@ -39,10 +69,9 @@ public class Course {
         return date;
     }
 
-    public Course(String distance, String lieu, String nom, String date, int departement) {
+    public Course( String lieu, String nom, String date, int departement) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        this.distance = CapitalizeFirstLetter(distance);
         this.lieu = CapitalizeFirstLetter(lieu);
         this.nom = CapitalizeFirstLetter(nom);
         this.departement = departement;

@@ -28,6 +28,15 @@ public class ProtimingScrapper {
             for (Element element : elements) {
                 String nom;
                 List<String> spanArray = Arrays.asList(element.select(".col-xs-12").select("span").text().split(" "));
+                String link = element.select(".panel-container").attr("id");
+
+                if (link.length() > 3){
+                    link = "https://protiming.fr/Runnings/detail/" + link.substring(3);
+                }
+
+
+
+
                 Set<String> uniqueLieu = element.select(".col-xs-12").select("p").stream()
                         .map(Element::text)
                         .collect(Collectors.toSet());
@@ -50,7 +59,13 @@ public class ProtimingScrapper {
                 } else {
                     nom = String.join(" ", spanArray);
                 }
-                courses.add(new Course("distance",lieuSplited[0], nom , date.toString()  , departementInt));
+
+                Course newCourse = new Course(lieuSplited[0], nom , date.toString() , departementInt);
+                newCourse.setLink(link);
+
+
+                courses.add(newCourse);
+
             }
 
 
@@ -107,6 +122,52 @@ public class ProtimingScrapper {
         return courses.stream()
                 .filter(course -> !(course.getNom().isEmpty()))
                 .toList();
+    }
+
+
+    public Course GetDetails(Course course){
+
+        if(course.getLink() != ""){
+         try {
+             Document doc = Jsoup.connect(course.getLink()).get();
+             Elements eltRow = doc.select(".panel-body").select("tr");
+
+             List<String> dist = new ArrayList<>();
+             String distItem;
+             int distItemInt;
+
+             for(Element el:eltRow) {
+
+                 String[] splitedItem = el.text().split("km");
+
+                 for (int i = 0 ; i < splitedItem.length ; i++ ){
+
+                     distItem = el.text().split("km")[i];
+                     try {
+                         distItemInt = Integer.parseInt(distItem);
+                         dist.add(distItem + "km");
+
+
+                     } catch (NumberFormatException e){
+
+                     }
+                 }
+
+                 Set<String> uniqueDist = dist.stream()
+                         .collect(Collectors.toSet());
+
+                 List<String> uniqueDistList = uniqueDist.stream().toList();
+                 course.setDistance(uniqueDistList);
+             }
+
+         } catch (IOException e){
+
+         }
+
+            return course ;
+        } else return null ;
+
+
     }
 
 }
