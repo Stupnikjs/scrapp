@@ -1,6 +1,7 @@
 package com.stupnikjs.gironderun.scrapper;
 
 import com.stupnikjs.gironderun.model.Course;
+import com.stupnikjs.gironderun.model.Scrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,8 +15,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-public class ProtimingScrapper {
+public class ProtimingScrapper extends Scrapper {
 
+
+
+
+    public ProtimingScrapper(){
+        super("Protiming");
+
+    }
 
     public List<Course> secondScrapper(int page) {
         List<Course> courses = new ArrayList<>();
@@ -60,7 +68,7 @@ public class ProtimingScrapper {
                     nom = String.join(" ", spanArray);
                 }
 
-                Course newCourse = new Course(lieuSplited[0], nom , date.toString() , departementInt);
+                Course newCourse = new Course(lieuSplited[0], nom , date.toString() , departementInt, this.getNom());
                 newCourse.setLink(link);
 
 

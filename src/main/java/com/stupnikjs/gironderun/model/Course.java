@@ -38,8 +38,22 @@ public class Course {
     }
 
 
+    public String getLieu() {
+        return lieu;
+    }
+
     @JsonProperty("nom")
     String nom;
+
+    List<String> sources ;
+
+    public List<String> getSources() {
+        return sources;
+    }
+
+    public void appendSource(Scrapper scrapper) {
+        this.sources.add(scrapper.nom);
+    }
 
     public List<String> getDistance() {
         return distance;
@@ -69,12 +83,13 @@ public class Course {
         return date;
     }
 
-    public Course( String lieu, String nom, String date, int departement) {
+    public Course( String lieu, String nom, String date, int departement, String scrapperNom) {
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         this.lieu = CapitalizeFirstLetter(lieu);
         this.nom = CapitalizeFirstLetter(nom);
         this.departement = departement;
+        this.sources.add(scrapperNom);
 
         try{
             Date newdate =  new Date(dateFormat.parse(date).getTime());

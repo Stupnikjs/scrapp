@@ -6,15 +6,15 @@ import com.stupnikjs.gironderun.scrapper.Courrir33Scrapper;
 import com.stupnikjs.gironderun.scrapper.ProtimingScrapper;
 
 import com.stupnikjs.gironderun.service.CourseServiceImp;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
+import java.net.http.HttpHeaders;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = {"*"})
@@ -55,9 +55,23 @@ public class controller {
         return scrapper.clean(courses);
     }
 
-    @GetMapping("/all")
-    public List<Course> getAll(){
+    @GetMapping("/testheader")
+    public List<Course> getHeaders(@RequestHeader Map<String, String> headers){
+        headers.forEach((key, value ) -> {
+            System.out.println(value);
+        });
         return courseService.getAllCourse();
     }
+
+
+    @GetMapping("/all")
+    public List<Course> getAll(@RequestHeader Map<String, String> headers){
+        headers.forEach((key, value ) -> {
+            System.out.println(value);
+        });
+        return courseService.getAllCourse();
+    }
+
+
 
 }

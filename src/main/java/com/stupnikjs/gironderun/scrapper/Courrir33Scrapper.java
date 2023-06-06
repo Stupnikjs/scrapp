@@ -1,6 +1,7 @@
 package com.stupnikjs.gironderun.scrapper;
 
 import com.stupnikjs.gironderun.model.Course;
+import com.stupnikjs.gironderun.model.Scrapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,7 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Courrir33Scrapper {
+public class Courrir33Scrapper extends Scrapper {
+
+
+    public Courrir33Scrapper(){
+        super("Courrir33Scrapper");
+
+    }
+
     public List<Course> Scrapper() {
         List<Course> courses = new ArrayList<>();
         String date = "";
@@ -44,7 +52,7 @@ public class Courrir33Scrapper {
 
                 }
                 if (!(nom.isEmpty() && lieu.isEmpty())) {
-                    Course newCourse = new Course(lieu, nom, date, 33);
+                    Course newCourse = new Course(lieu, nom, date, 33, this.getNom());
                     newCourse.setDistance(distance);
                     courses.add(newCourse);
                 }
