@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for rouquinapi on 2023-06-06T08:26:13+02:00
+# fly.toml app configuration file generated for runscrapp on 2023-06-07T11:10:22+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "rouquinapi"
+app = "runscrapp"
 primary_region = "cdg"
 
 [http_service]

@@ -17,21 +17,24 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 @CrossOrigin(origins = {"*"})
 public class controller {
 
-    @Autowired
-    Courrir33Scrapper first;
 
     @Autowired
-    ProtimingScrapper scrapper;
+    ProtimingScrapper protimingScrapper;
+
+
+    @Autowired
+    Courrir33Scrapper courrir33Scrapper;
 
 
     @Autowired
     CourseServiceImp courseService;
 
     @GetMapping("/scrapp/{page}")
-    public  List<Course> controller(@PathVariable int page) {
+    public  List<Course> protimingController (@PathVariable int page) {
 
         List<Course> courses = new ArrayList<>();
 
@@ -41,19 +44,31 @@ public class controller {
         }
         */
 
-        courses.addAll(scrapper.secondScrapper(page));
+        courses.addAll(protimingScrapper.secondScrapper(page));
 
         Course newCourse;
 
-        for (Course course:scrapper.clean(courses)){
-            newCourse  = scrapper.GetDetails(course);
-            courseService.saveCourse(newCourse);
+        for (Course course:protimingScrapper.clean(courses)){
+            newCourse  = protimingScrapper.GetDetails(course);
+            courseService.saveCourse(newCourse, protimingScrapper.getNom());
         }
 
 
 
-        return scrapper.clean(courses);
+        return protimingScrapper.clean(courses);
     }
+
+
+    /* pas fonctionnel
+    @GetMapping("/scrapp/courrir33/")
+    public List<Course> protimingController(){
+        List<Course> courses = new ArrayList<>();
+
+        courses.addAll(courrir33Scrapper.Scrapper());
+        return courrir33Scrapper.clean(courses);
+
+    }
+   */
 
     @GetMapping("/testheader")
     public List<Course> getHeaders(@RequestHeader Map<String, String> headers){
@@ -65,11 +80,8 @@ public class controller {
 
 
     @GetMapping("/all")
-    public List<Course> getAll(@RequestHeader Map<String, String> headers){
-        headers.forEach((key, value ) -> {
-            System.out.println(value);
-        });
-        return courseService.getAllCourse();
+    public List<Course> getAll(){
+          return courseService.getAllCourse();
     }
 
 

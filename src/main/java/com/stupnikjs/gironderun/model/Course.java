@@ -3,14 +3,12 @@ package com.stupnikjs.gironderun.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -45,7 +43,7 @@ public class Course {
     @JsonProperty("nom")
     String nom;
 
-    List<String> sources ;
+    List<String> sources;
 
     public List<String> getSources() {
         return sources;
@@ -89,7 +87,9 @@ public class Course {
         this.lieu = CapitalizeFirstLetter(lieu);
         this.nom = CapitalizeFirstLetter(nom);
         this.departement = departement;
+        this.sources = new ArrayList<>();
         this.sources.add(scrapperNom);
+
 
         try{
             Date newdate =  new Date(dateFormat.parse(date).getTime());

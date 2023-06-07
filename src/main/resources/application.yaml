@@ -2,7 +2,7 @@ spring:
   jpa:
     show_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   datasource:
 
     url: jdbc:postgresql://lucky.db.elephantsql.com:5432/roblqurx
@@ -21,4 +21,4 @@ spring:
 
 
 server:
-  port: 8082
+  port: 8080

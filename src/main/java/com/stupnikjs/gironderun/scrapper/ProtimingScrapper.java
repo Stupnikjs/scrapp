@@ -126,11 +126,7 @@ public class ProtimingScrapper extends Scrapper {
         return LocalDate.of(0, 1, 1);
     }
 
-    public List<Course> clean(List<Course> courses){
-        return courses.stream()
-                .filter(course -> !(course.getNom().isEmpty()))
-                .toList();
-    }
+
 
 
     public Course GetDetails(Course course){

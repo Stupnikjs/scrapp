@@ -19,8 +19,8 @@ public class CourseServiceImp implements CourseServiceInterface{
     }
 
 
-    public void saveCourse(Course course){
-        if (!repo.courseAlreadyInDB(course))
+
+    public void saveCourse(Course course, String scrapperNom){
         repo.saveCourse(course);
     }
 }
