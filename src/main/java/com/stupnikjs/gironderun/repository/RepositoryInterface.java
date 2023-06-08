@@ -14,12 +14,15 @@ public interface RepositoryInterface  {
 
     void deleteCourse(Long id);
 
-    List<Course> findByDepartement(int departement);
-
 
      */
 
-    public boolean courseAlreadyInDB(Course course);
+    List<Course> getCourseByDep(int departement);
+
+
+
+
+    // public boolean courseAlreadyInDB(Course course);
 
 
 

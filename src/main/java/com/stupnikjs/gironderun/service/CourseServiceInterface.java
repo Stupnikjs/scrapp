@@ -11,6 +11,7 @@ public interface CourseServiceInterface {
 
     public List<Course> getAllCourse();
 
+    public List<Course> getCourseByDep(int dep);
     public void saveCourse(Course course, String scrapperNom);
 
 

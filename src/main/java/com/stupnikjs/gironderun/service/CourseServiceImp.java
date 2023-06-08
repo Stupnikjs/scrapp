@@ -23,4 +23,9 @@ public class CourseServiceImp implements CourseServiceInterface{
     public void saveCourse(Course course, String scrapperNom){
         repo.saveCourse(course);
     }
+
+
+    public List<Course> getCourseByDep(int dep) {
+        return repo.getCourseByDep(dep);
+    }
 }

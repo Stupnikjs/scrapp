@@ -17,8 +17,15 @@ spring:
       maxLifetime: 30000
       poolName: HikariQuizz
 
+  shell:
+    interactive:
+      enabled: false
 
 
 
 server:
   port: 8080
+
+maxmind:
+  userid: 875725
+  password: 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

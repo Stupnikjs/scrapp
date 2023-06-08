@@ -23,28 +23,19 @@ public class RepositoryImp implements RepositoryInterface {
 
     @Transactional
     public void saveCourse(Course course){
-        /* boolean alreadyInDb = courseAlreadyInDB(course);
-        if(!alreadyInDb)*/
         entityManager.persist(course);
+    }
 
-        /*else {
-            String sql = "INSERT INTO Course(sources) values (ARRAY[?])";
-            Query query = entityManager.createNativeQuery(sql , Course.class);
-            query.setParameter(1, scrappernom);
-            query.executeUpdate();
+    public List<Course> getCourseByDep(int dep){
+        String sql = "SELECT * FROM Course WHERE departement = :dep ; ";
+        Query query = entityManager.createNativeQuery(sql, Course.class);
+        query.setParameter("dep",dep);
+        return query.getResultList();
 
-        }*/
     }
 
 
-    public boolean courseAlreadyInDB(Course course){
-        String sql = "SELECT * FROM Course WHERE nom = :nom and lieu = :lieu";
-        Query query = entityManager.createNativeQuery(sql , Course.class);
-        query.setParameter("nom", course.getNom());
-        query.setParameter("lieu", course.getLieu());
-        List<Course> courses = query.getResultList();
-        return !courses.isEmpty();
-    }
+
 
 
 }

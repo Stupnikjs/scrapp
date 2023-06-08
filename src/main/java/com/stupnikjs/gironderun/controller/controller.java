@@ -1,18 +1,24 @@
 package com.stupnikjs.gironderun.controller;
 
+
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.stupnikjs.gironderun.model.Course;
 
 import com.stupnikjs.gironderun.scrapper.Courrir33Scrapper;
 import com.stupnikjs.gironderun.scrapper.ProtimingScrapper;
 
 import com.stupnikjs.gironderun.service.CourseServiceImp;
+import com.stupnikjs.gironderun.utils.Geolocate;
+import com.stupnikjs.gironderun.utils.HttpUtils;
+import com.stupnikjs.gironderun.utils.IpChecker;
 import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.net.http.HttpHeaders;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +27,11 @@ import java.util.Map;
 @CrossOrigin(origins = {"*"})
 public class controller {
 
+    @Value("${maxmind.userid}")
+    private int userid;
+
+    @Value("${maxmind.password}")
+    private String password;
 
     @Autowired
     ProtimingScrapper protimingScrapper;
@@ -33,42 +44,6 @@ public class controller {
     @Autowired
     CourseServiceImp courseService;
 
-    @GetMapping("/scrapp/{page}")
-    public  List<Course> protimingController (@PathVariable int page) {
-
-        List<Course> courses = new ArrayList<>();
-
-        /*
-        for (int i = 0 ; i < 6; i++){
-            courses.addAll(scrapper.secondScrapper(i));
-        }
-        */
-
-        courses.addAll(protimingScrapper.secondScrapper(page));
-
-        Course newCourse;
-
-        for (Course course:protimingScrapper.clean(courses)){
-            newCourse  = protimingScrapper.GetDetails(course);
-            courseService.saveCourse(newCourse, protimingScrapper.getNom());
-        }
-
-
-
-        return protimingScrapper.clean(courses);
-    }
-
-
-    /* pas fonctionnel
-    @GetMapping("/scrapp/courrir33/")
-    public List<Course> protimingController(){
-        List<Course> courses = new ArrayList<>();
-
-        courses.addAll(courrir33Scrapper.Scrapper());
-        return courrir33Scrapper.clean(courses);
-
-    }
-   */
 
     @GetMapping("/testheader")
     public List<Course> getHeaders(@RequestHeader Map<String, String> headers){
@@ -84,6 +59,35 @@ public class controller {
           return courseService.getAllCourse();
     }
 
+    @GetMapping("/departement/{dep}")
+    public List<Course> getByDep(@PathVariable int dep){
+
+        return courseService.getCourseByDep(dep);
 
 
+    }
+
+
+
+    @GetMapping("/ip")
+    public String getIp(HttpServletRequest request) throws Exception {
+
+        Geolocate geolocate = new Geolocate();
+
+
+        String ip = IpChecker.getIp();
+        System.out.println("ip : " +  ip);
+
+        String remoteip = HttpUtils.getRequestIP(request);
+
+        String city;
+        try{
+             city = geolocate.getLocation(userid, password,remoteip);
+
+        } catch (GeoIp2Exception e) {
+           e.printStackTrace();
+           city = "";
+        }
+        return city;
+    }
 }
