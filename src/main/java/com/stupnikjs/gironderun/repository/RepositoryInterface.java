@@ -10,21 +10,14 @@ public interface RepositoryInterface  {
     List<Course> findAll();
 
 
-    /*void updateCourse(Course course);
 
-    void deleteCourse(Long id);
-
-
-     */
 
     List<Course> getCourseByDep(int departement);
 
 
 
 
-    // public boolean courseAlreadyInDB(Course course);
-
-
+    void deleteAll();
 
     void saveCourse(Course course);
 

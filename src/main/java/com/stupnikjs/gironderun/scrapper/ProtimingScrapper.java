@@ -59,7 +59,7 @@ public class ProtimingScrapper extends Scrapper {
                      departementInt = 165;
                 }
 
-                LocalDate date = dateFormateur(element.select("time").text());
+                LocalDate date = dateFormateur(element.select("time").text(), 0);
 
                 if (spanArray.size() > 2) {
                     List<String> slice = spanArray.subList(0, spanArray.size() - 1);
@@ -86,45 +86,7 @@ public class ProtimingScrapper extends Scrapper {
 
 
 
-        private LocalDate dateFormateur(String dateStr){
 
-        String[] array =  {"Janv", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil.", "Août", "Sept.","Oct.", "Nov.", "Déc."};
-        List<String> frenchMonth = new ArrayList<>(Arrays.asList(array));
-
-
-        String[] splited = dateStr.split(" ");
-
-        if (splited.length > 1){
-            String year = splited[0];
-            String month = splited[1];
-            String day = splited[splited.length - 1];
-
-            int yearInt;
-            int monthInt;
-            int dayInt;
-
-
-            try{
-                yearInt = Integer.parseInt(year);
-                dayInt = Integer.parseInt(day);
-
-
-            } catch (NumberFormatException e){
-                return LocalDate.of(0, 0, 0);
-            }
-
-
-            if (frenchMonth.contains(month)) {
-                monthInt = frenchMonth.indexOf(month);
-
-                return LocalDate.of(yearInt, monthInt + 1, dayInt);
-            } else {
-                return LocalDate.of(0, 1, 1);
-            }
-
-        }
-        return LocalDate.of(0, 1, 1);
-    }
 
 
 

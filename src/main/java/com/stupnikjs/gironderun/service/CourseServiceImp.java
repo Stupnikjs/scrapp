@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImp implements CourseServiceInterface{
@@ -14,8 +15,8 @@ public class CourseServiceImp implements CourseServiceInterface{
     RepositoryInterface repo ;
 
 
-    public List<Course> getAllCourse(){
-        return repo.findAll();
+       public List<Course> getAllCourse(){
+           return repo.findAll();
     }
 
 

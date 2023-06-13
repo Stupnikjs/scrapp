@@ -19,7 +19,7 @@ spring:
 
   shell:
     interactive:
-      enabled: false
+      enabled: true
 
 
 
@@ -29,3 +29,5 @@ server:
 maxmind:
   userid: 875725
   password: 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
+
+# postgres://roblqurx:exHzDY29zXoM-dTbfsabErskZSaDRXZb@lucky.db.elephantsql.com/roblqurx

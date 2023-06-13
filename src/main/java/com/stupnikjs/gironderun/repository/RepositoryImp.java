@@ -7,6 +7,7 @@ import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Repository
@@ -34,7 +35,33 @@ public class RepositoryImp implements RepositoryInterface {
 
     }
 
+    @Transactional
+    public void deleteAll(){
+        try{
+            String sql = "TRUNCATE TABLE course";
+            Query query = entityManager.createNativeQuery(sql, Course.class);
+            query.executeUpdate();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
 
+    }
+
+
+    public int courseCount(String name){
+        String sql = "SELECT * FROM Course WHERE nom = :nom";
+        Query query = entityManager.createNativeQuery(sql, Course.class);
+        query.setParameter("nom", name);
+        return query.getResultList().size();
+
+    }
+
+    @Transactional
+    public void removeDuplicate(){
+        String sql = "DELETE FROM course WHERE id NOT IN (SELECT MIN(id) FROM course GROUP BY nom); ";
+        Query query = entityManager.createNativeQuery(sql, Course.class);
+        query.executeUpdate();
+    }
 
 
 
