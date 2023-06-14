@@ -24,7 +24,6 @@ public class Courrir33Scrapper extends Scrapper {
     public List<Course> Scrapper() {
         List<Course> courses = new ArrayList<>();
         String date = "";
-        String type = "";
         String nom = "";
         String lieu = "";
         List<String> distance = new ArrayList<>();
@@ -75,10 +74,7 @@ public class Courrir33Scrapper extends Scrapper {
         return courses;
     }
 
-    private  List<Course> removeTrash(List<Course> courses){
-        
-        return courses;
-    }
+
 
 
 }

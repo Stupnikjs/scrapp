@@ -84,6 +84,28 @@ public class Scrapper {
         }
         return LocalDate.of(0, 1, 1);
     }
+
+
+    public int extractDepartement(String lieu) {
+        int departementInt;
+        String[] lieuSplited = lieu.split(" \\(");
+        if (lieuSplited.length < 2) return 0;
+        String departement = lieuSplited[1];
+        departement = departement.substring(0, departement.length() - 1);
+
+            try {
+                departementInt = Integer.parseInt(departement);
+
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                departementInt = 0;
+
+            }
+            return departementInt;
+
+
+    }
+
 }
 
 

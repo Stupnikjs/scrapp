@@ -2,6 +2,7 @@ package com.stupnikjs.gironderun.cli;
 
 import com.stupnikjs.gironderun.model.Course;
 import com.stupnikjs.gironderun.repository.RepositoryImp;
+import com.stupnikjs.gironderun.scrapper.KilkegoScrapper;
 import com.stupnikjs.gironderun.scrapper.ProtimingScrapper;
 import com.stupnikjs.gironderun.scrapper.RunTrailScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class Commands {
     ProtimingScrapper protimingScrapper;
 
     @Autowired
-    RunTrailScrapper runTrailScrapper;
+    KilkegoScrapper kilkegoScrapper;
 
     @Autowired
     RepositoryImp repositoryImp;
@@ -42,7 +43,7 @@ public class Commands {
         }
     }
 
-
+/*
     @ShellMethod(key= "scrapp runtrail")
     public void scrappRunTrail() {
         List<Course> courses;
@@ -56,6 +57,15 @@ public class Commands {
             }
         }
     }
+*/
+    @ShellMethod(key= "scrapp kilkego")
+    public void scrappRunTrail(int page) {
+        List<Course> courses;
+        kilkegoScrapper.scrapper(page);
+
+    }
+
+
 
     @ShellMethod(key="delete all")
     public void deleteAll(){

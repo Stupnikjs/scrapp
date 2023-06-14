@@ -34,45 +34,9 @@ public class ProtimingScrapper extends Scrapper {
             Elements elements = doc.select(".panel-container");
 
             for (Element element : elements) {
-                String nom;
-                List<String> spanArray = Arrays.asList(element.select(".col-xs-12").select("span").text().split(" "));
-                String link = element.select(".panel-container").attr("id");
 
-                if (link.length() > 3){
-                    link = "https://protiming.fr/Runnings/detail/" + link.substring(3);
-                }
-
-
-
-
-                Set<String> uniqueLieu = element.select(".col-xs-12").select("p").stream()
-                        .map(Element::text)
-                        .collect(Collectors.toSet());
-                String lieu = uniqueLieu.isEmpty() ? "": uniqueLieu.toArray()[0].toString();
-                String[] lieuSplited = lieu.split(" \\(");
-                String departement  = lieuSplited.length > 1 ? lieuSplited[1]: "" ;
-                departement = departement.substring(0 , departement.length() > 1 ? departement.length() - 1 : 0 );
-                int departementInt;
-                try{
-                    departementInt = Integer.parseInt(departement);
-                } catch (NumberFormatException e){
-                     departementInt = 165;
-                }
-
-                LocalDate date = dateFormateur(element.select("time").text(), 0);
-
-                if (spanArray.size() > 2) {
-                    List<String> slice = spanArray.subList(0, spanArray.size() - 1);
-                    nom = String.join(" ", slice);
-                } else {
-                    nom = String.join(" ", spanArray);
-                }
-
-                Course newCourse = new Course(lieuSplited[0], nom , date.toString() , departementInt, this.getNom());
-                newCourse.setLink(link);
-
-
-                courses.add(newCourse);
+               Course course = processElement(element);
+               courses.add(course);
 
             }
 
@@ -82,6 +46,45 @@ public class ProtimingScrapper extends Scrapper {
         }
 
         return courses;
+    }
+
+
+    private Course processElement(Element element){
+        String nom;
+
+        List<String> spanArray = Arrays.asList(element.select(".col-xs-12").select("span").text().split(" "));
+
+        // link
+        String link = element.select(".panel-container").attr("id");
+        if (link.length() > 3){
+            link = "https://protiming.fr/Runnings/detail/" + link.substring(3);
+        }
+
+        // lieu
+        Set<String> uniqueLieu = element.select(".col-xs-12").select("p").stream()
+                .map(Element::text)
+                .collect(Collectors.toSet());
+        String lieu = uniqueLieu.isEmpty() ? "": uniqueLieu.toArray()[0].toString();
+        String[] lieuSplited = lieu.split("\\(");
+
+        // departement
+        int departementInt = extractDepartement(lieu);
+
+        // date
+        LocalDate date = dateFormateur(element.select("time").text(), 0);
+
+        // nom
+        if (spanArray.size() > 2) {
+            List<String> slice = spanArray.subList(0, spanArray.size() - 1);
+            nom = String.join(" ", slice);
+        } else {
+            nom = String.join(" ", spanArray);
+        }
+
+        Course newCourse = new Course(lieuSplited[0], nom , date.toString() , departementInt, this.getNom());
+        newCourse.setLink(link);
+        return newCourse;
+
     }
 
 
